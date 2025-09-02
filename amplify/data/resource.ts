@@ -15,9 +15,8 @@ const schema = a.schema({
     .query()
     .arguments({ prompt: a.string() })
     .returns(a.ref("PatentInfo"))
-    //.authorization((allow) => [allow.authenticated()])
     .authorization((allow) => [allow.publicApiKey()])
-    .handler(a.handler.function('./bedrock-handler.ts')), // ← Sintaxis más simple
+    .handler(a.handler.function('amplify-aipatentes-ec2use-bedrockHandlerlambdaCAF1-qnOzAWOA7zHw')), // Solo el nombre como string
 });
 
 export type Schema = ClientSchema<typeof schema>;
