@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { bedrockHandler } from "../function/bedrock-handler/resource";
 
 const schema = a.schema({
   PatentInfo: a.customType({
@@ -15,9 +16,8 @@ const schema = a.schema({
     .query()
     .arguments({ prompt: a.string() })
     .returns(a.ref("PatentInfo"))
-    //.authorization((allow) => [allow.authenticated()])
     .authorization((allow) => [allow.publicApiKey()])
-    .handler(a.handler.function('./bedrock-handler.ts')), // ← Sintaxis más simple
+    .handler(a.handler.function(bedrockHandler)), // 👈 enlazamos a la función definida
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -29,6 +29,7 @@ export const data = defineData({
     apiKeyAuthorizationMode: { expiresInDays: 30 },
   },
 });
+
 
 /* Versión anterior sin Prompt Eng
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";

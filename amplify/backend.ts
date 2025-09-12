@@ -1,35 +1,14 @@
 import { defineBackend } from "@aws-amplify/backend";
 import { data } from "./data/resource";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { auth } from "./auth/resource";
+import { bedrockHandler } from "./function/bedrock-handler/resource";
 
-const backend = defineBackend({
+export const backend = defineBackend({
   auth,
   data,
+  bedrockHandler, // 👈 ahora Amplify sabe crearla
 });
 
-// El nombre de la función se genera automáticamente
-// Intenta con estos nombres comunes:
-const functionNames = [
-  'askBedrockFunction',
-  'bedrockHandlerFunction', 
-  'functionHandler'
-];
-
-for (const functionName of functionNames) {
-  const fn = backend.data.resources.functions[functionName];
-  if (fn) {
-    fn.addToRolePolicy(
-      new PolicyStatement({
-        resources: [
-          "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0",
-        ],
-        actions: ["bedrock:InvokeModel"],
-      })
-    );
-    break;
-  }
-}
 /*
 import { defineBackend } from '@aws-amplify/backend';
 import { data } from './data/resource';
