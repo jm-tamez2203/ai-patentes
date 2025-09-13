@@ -5,9 +5,9 @@ const schema = a.schema({
   PatentInfo: a.customType({
     molecule: a.string(),
     patent_number: a.string(),
-    assignee: a.string(),
-    country: a.string(),
-    expiration_date: a.string(),
+    assignee: a.string(),          // 👈 nuevo
+    country: a.string(),           // 👈 nuevo
+    expiration_date: a.string(),   // 👈 nuevo
     summary: a.string(),
     error: a.string(),
   }),
@@ -17,10 +17,10 @@ const schema = a.schema({
     .arguments({ prompt: a.string() })
     .returns(a.ref("PatentInfo"))
     .authorization((allow) => [allow.publicApiKey()])
-    .handler(a.handler.function(bedrockHandler)), // 👈 enlazamos a la función definida
+    .handler(a.handler.function(bedrockHandler)),  // 👈 Enlazamos a función definida
 });
 
-export type Schema = ClientSchema<typeof schema>;
+export type Schema = ClientSchema<typeof schema>;   
 
 export const data = defineData({
   schema,
@@ -29,6 +29,7 @@ export const data = defineData({
     apiKeyAuthorizationMode: { expiresInDays: 30 },
   },
 });
+
 
 
 /* Versión anterior sin Prompt Eng
